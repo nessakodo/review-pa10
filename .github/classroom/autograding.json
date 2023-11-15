@@ -1,0 +1,64 @@
+{
+  "tests": [
+    {
+      "name": "AudioBookToString_test",
+      "setup": "g++ -isystem ./tests/googletest/include -std=c++14 -Wall -Wextra -pthread -lpthread src/Book.cpp src/Library.cpp src/Loan.cpp src/PrintedBook.cpp src/EBook.cpp src/AudioBook.cpp src/Patron.cpp src/Date.cpp tests/AudioBookToString_test.o tests/gtest_main.a -o AudioBookToString_test",
+      "run": "./AudioBookToString_test",
+      "input": "",
+      "output": "",
+      "comparison": "exact",
+      "timeout": 1,
+      "points": 10
+    },
+    {
+      "name": "EBookToString_test",
+      "setup": "g++ -isystem ./tests/googletest/include -std=c++14 -Wall -Wextra -pthread -lpthread src/Book.cpp src/Library.cpp src/Loan.cpp src/PrintedBook.cpp src/EBook.cpp src/AudioBook.cpp src/Patron.cpp src/Date.cpp tests/EBookToString_test.o tests/gtest_main.a -o EBookToString_test",
+      "run": "./EBookToString_test",
+      "input": "",
+      "output": "",
+      "comparison": "exact",
+      "timeout": 1,
+      "points": 10
+    },
+    {
+      "name": "PrintedBookToString_test",
+      "setup": "g++ -isystem ./tests/googletest/include -std=c++14 -Wall -Wextra -pthread -lpthread src/Book.cpp src/Library.cpp src/Loan.cpp src/PrintedBook.cpp src/EBook.cpp src/AudioBook.cpp src/Patron.cpp src/Date.cpp tests/PrintedBookToString_test.o tests/gtest_main.a -o PrintedBookToString_test",
+      "run": "./PrintedBookToString_test",
+      "input": "",
+      "output": "",
+      "comparison": "exact",
+      "timeout": 1,
+      "points": 10
+    },
+    {
+      "name": "AddPatronCheckOutReturnExceptionHandling_test",
+      "setup": "g++ -isystem ./tests/googletest/include -std=c++14 -Wall -Wextra -pthread -lpthread src/Book.cpp src/Library.cpp src/Loan.cpp src/PrintedBook.cpp src/EBook.cpp src/AudioBook.cpp src/Patron.cpp src/Date.cpp src/menu.cpp tests/AddPatronCheckOutReturnExceptionHandling_test.o tests/gtest_main.a -o AddPatronCheckOutReturnExceptionHandling_test",
+      "run": "./AddPatronCheckOutReturnExceptionHandling_test",
+      "input": "",
+      "output": "",
+      "comparison": "exact",
+      "timeout": 1,
+      "points": 20
+    },
+    {
+      "name": "mainMenuSearchBook_ToString_test",
+      "setup": "g++ -isystem ./tests/googletest/include -std=c++14 -Wall -Wextra -pthread -lpthread src/Book.cpp src/Library.cpp src/Loan.cpp src/PrintedBook.cpp src/EBook.cpp src/AudioBook.cpp src/Patron.cpp src/Date.cpp src/menu.cpp tests/mainMenuSearchBook_ToString_test.o tests/gtest_main.a -o mainMenuSearchBook_ToString_test",
+      "run": "./mainMenuSearchBook_ToString_test",
+      "input": "",
+      "output": "",
+      "comparison": "exact",
+      "timeout": 1,
+      "points": 10
+    },
+    {
+      "name": "AddBookExceptionHandling_test",
+      "setup": "g++ -isystem ./tests/googletest/include -std=c++14 -Wall -Wextra -pthread -lpthread src/Book.cpp src/Library.cpp src/Loan.cpp src/PrintedBook.cpp src/EBook.cpp src/AudioBook.cpp src/Patron.cpp src/Date.cpp src/menu.cpp tests/AddBookExceptionHandling_test.o tests/gtest_main.a -o AddBookExceptionHandling_test",
+      "run": "./AddBookExceptionHandling_test",
+      "input": "",
+      "output": "",
+      "comparison": "exact",
+      "timeout": 1,
+      "points": 20
+    }
+  ]
+}
