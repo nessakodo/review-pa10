@@ -6,6 +6,7 @@
 
 Library::Library(const std::string& name) : name(name) {}
 
+
 Library::~Library() {
     for (auto loan : loans) {
         delete loan;
@@ -26,6 +27,7 @@ Library::~Library() {
 std::string Library::getName() const {
     return name;
 }
+
 
 std::vector<Book*> Library::getBookList() const {
     return books;

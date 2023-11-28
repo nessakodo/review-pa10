@@ -1,218 +1,259 @@
 #include "menu.h"
-#include "Menu.h"
+#include "Library.h"
 #include <iostream>
-#include <stdexcept>
-#include <string>
+#include <limits>
 
-Menu::Menu(Library& lib) : library(lib) {}
+Menu::Menu(Library& library) : library(library) {}
 
-int choice;
 void Menu::displayMainMenu() {
-    int choice;
-    do {
-        std::cout << "\n---------------------------------\n";
-        std::cout << "            Main Menu\n";
-        std::cout << "---------------------------------\n";
-        std::cout << "1) Add Patron\n";
-        std::cout << "2) Add Book\n";
-        std::cout << "3) Search for Patron\n";
-        std::cout << "4) Search for Book\n";
-        std::cout << "5) Check Out Book\n";
-        std::cout << "6) Return Book\n";
-        std::cout << "99) EXIT\n";
-        std::cout << "---------------------------------\n";
-        std::cout << "Enter your choice: ";
-        std::cin >> choice;
+    int choice = 0;
 
+    do {
+        std::cout << "---------------------------------" << std::endl;
+        std::cout << "            Main Menu" << std::endl;
+        std::cout << "---------------------------------" << std::endl;
+        std::cout << "1. Add Patron" << std::endl;
+        std::cout << "2. Add Book" << std::endl;
+        std::cout << "3. Search for Patron" << std::endl;
+        std::cout << "4. Search for Book" << std::endl;
+        std::cout << "5. Check Out Book" << std::endl;
+        std::cout << "6. Return Book" << std::endl;
+        std::cout << "99. Exit" << std::endl;
+        std::cout << "Enter your choice: ";
+
+        if (!(std::cin >> choice)) {
+            std::cout << "Invalid input. Please enter a valid number." << std::endl;
+            std::cin.clear(); // Clear error flags
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard invalid input
+            continue;
+        }
 
         switch (choice) {
-            case 1: {
-                std::string name, address, phoneNumber;
-                std::cout << "Enter Patron's name: ";
-                std::cin.ignore();
-                std::getline(std::cin, name);
-                std::cout << "Enter Patron's address: ";
-                std::getline(std::cin, address);
-                std::cout << "Enter Patron's phone number: ";
-                std::getline(std::cin, phoneNumber);
-
-                try {
-                    library.addPatron(name, address, phoneNumber);
-                    std::cout << "Patron added successfully!\n";
-                } catch (const std::invalid_argument& e) {
-                    std::cerr << "Error: " << e.what() << '\n';
-                }
+            case 1:
+                addPatron();
                 break;
-            }
-            case 2: {
-                Menu::displayAddBookMenu();
+
+            case 2:
+                addBook();
                 break;
-            }
-            case 3: {
-                std::string patronName;
-                std::cout << "Enter Patron's name to search: ";
-                std::cin.ignore();
-                std::getline(std::cin, patronName);
 
-                Patron* foundPatron = library.searchPatron(patronName);
-                if (foundPatron != nullptr) {
-                    std::cout << "Patron found!\n";
-                    // Display Patron details or perform actions
-                } else {
-                    std::cout << "Patron not found!\n";
-                }
+            case 3:
+                searchPatron();
                 break;
-            }
-            case 4: {
-                std::string bookTitle;
-                std::cout << "Enter Book's title to search: ";
-                std::cin.ignore();
-                std::getline(std::cin, bookTitle);
 
-                Book* foundBook = library.searchBook(bookTitle);
-                if (foundBook != nullptr) {
-                    std::cout << "Book found!\n";
-                    // Display Book details or perform actions
-                } else {
-                    std::cout << "Book not found!\n";
-                }
+            case 4:
+                searchBook();
                 break;
-            }
-            case 5: {
-                std::string bookTitle, patronName;
-                int dueYear, dueMonth, dueDay;
 
-                std::cout << "Enter Book's title to check out: ";
-                std::cin.ignore();
-                std::getline(std::cin, bookTitle);
-                Book* checkedOutBook = library.searchBook(bookTitle);
-
-                std::cout << "Enter Patron's name for check-out: ";
-                std::getline(std::cin, patronName);
-                Patron* patron = library.searchPatron(patronName);
-
-                if (checkedOutBook != nullptr && patron != nullptr) {
-                    std::cout << "Enter due date (Year Month Day): ";
-                    std::cin >> dueYear >> dueMonth >> dueDay;
-
-                    try {
-                        library.checkOutBook(checkedOutBook, patron, dueYear, dueMonth, dueDay);
-                        std::cout << "Book checked out successfully!\n";
-                    } catch (const std::invalid_argument& e) {
-                        std::cerr << "Error: " << e.what() << '\n';
-                    }
-                } else {
-                    std::cout << "Book or Patron not found!\n";
-                }
+            case 5:
+                checkOutBook();
                 break;
-            }
-            case 6: {
-                std::string bookTitle, patronName;
 
-                std::cout << "Enter Book's title to return: ";
-                std::cin.ignore();
-                std::getline(std::cin, bookTitle);
-                Book* returnedBook = library.searchBook(bookTitle);
-
-                std::cout << "Enter Patron's name for return: ";
-                std::getline(std::cin, patronName);
-                Patron* patron = library.searchPatron(patronName);
-
-                if (returnedBook != nullptr && patron != nullptr) {
-                    try {
-                        library.returnBook(returnedBook, patron);
-                        std::cout << "Book returned successfully!\n";
-                    } catch (const std::invalid_argument& e) {
-                        std::cerr << "Error: " << e.what() << '\n';
-                    }
-                } else {
-                    std::cout << "Book or Patron not found!\n";
-                }
+            case 6:
+                returnBook();
                 break;
-            }
 
-            case 99: {
-                std::cout << "Exiting...\n";
+            case 99:
+                exitMenu();
                 break;
-            }
-            default: {
-                std::cout << "Invalid choice! Please try again.\n";
+
+            default:
+                std::cout << "Invalid choice. Please try again." << std::endl;
                 break;
         }
-    }
-} while (choice != 99);
+    } while (choice != 99);
+}
+
+void Menu::addPatron() {
+    std::string name, address, phoneNumber;
+    std::cin.ignore(); // Ignore previous input
+    std::cout << "Enter Patron's name: ";
+    std::getline(std::cin, name);
+    std::cout << "Enter Patron's address: ";
+    std::getline(std::cin, address);
+    std::cout << "Enter Patron's phone number: ";
+    std::getline(std::cin, phoneNumber);
+    library.addPatron(name, address, phoneNumber);
+    std::cout << "Patron added successfully!" << std::endl;
+}
+
+void Menu::addBook() {
+    int bookChoice = 0;
+
+    do {
+        std::cout << "---------------------------------" << std::endl;
+        std::cout << "          Add Book Menu" << std::endl;
+        std::cout << "---------------------------------" << std::endl;
+        std::cout << "1. Add Printed Book" << std::endl;
+        std::cout << "2. Add Ebook" << std::endl;
+        std::cout << "3. Add Audiobook" << std::endl;
+        std::cout << "4. Back to Main Menu" << std::endl;
+        std::cout << "Enter your choice: ";
+
+        if (!(std::cin >> bookChoice)) {
+            std::cout << "Invalid input. Please enter a valid number." << std::endl;
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            continue;
+        }
+
+        switch (bookChoice) {
+            case 1:
+                addPrintedBook();
+                break;
+
+            case 2:
+                addEBook();
+                break;
+
+            case 3:
+                addAudioBook();
+                break;
+
+            case 4:
+                std::cout << "Returning to Main Menu." << std::endl;
+                return; // Return to main menu
+
+            default:
+                std::cout << "Invalid choice. Please try again." << std::endl;
+                break;
+        }
+    } while (bookChoice != 4);
 }
 
 
-void Menu::displayAddBookMenu() {
-    int choice;
-    do {
-        std::cout << "\n---------------------------------\n";
-        std::cout << "          Add Book Menu\n";
-        std::cout << "---------------------------------\n";
-        std::cout << "1) Add Printed Book\n";
-        std::cout << "2) Add Ebook\n";
-        std::cout << "3) Add Audiobook\n";
-        std::cout << "---------------------------------\n";
-        std::cout << "Enter your choice: ";
-        std::cin >> choice;
+void Menu::addPrintedBook() {
+    std::string title, author;
+    int numPages;
+    std::cin.ignore(); // Ignore previous input
+    std::cout << "Enter Printed Book's title: ";
+    std::getline(std::cin, title);
+    std::cout << "Enter the number of pages: ";
+    if (!(std::cin >> numPages)) {
+        std::cout << "Invalid input. Please enter a valid number." << std::endl;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        return;
+    }
+    library.addPrintedBook(title, numPages); // Assuming library has a function addPrintedBook()
+    std::cout << "Printed Book added successfully!" << std::endl;
+}
 
-        std::string title;
-        int numPages, sizeCharacters, charsPerPage, durationSeconds;
+void Menu::addEBook() {
+    std::string title;
+    int numPages, sizeMB;
+    std::cin.ignore(); // Ignore previous input
+    std::cout << "Enter eBook's title: ";
+    std::getline(std::cin, title);
+    std::cout << "Enter the number of pages: ";
+    if (!(std::cin >> numPages)) {
+        std::cout << "Invalid input. Please enter a valid number." << std::endl;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        return;
+    }
+    std::cout << "Enter the size in MB: ";
+    if (!(std::cin >> sizeMB)) {
+        std::cout << "Invalid input. Please enter a valid number." << std::endl;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        return;
+    }
+    library.addEBook(title, numPages, sizeMB); // Assuming library has a function addEBook()
+    std::cout << "EBook added successfully!" << std::endl;
+}
 
-        switch (choice) {
-            case 1: {
-                std::cout << "Enter Printed Book title: ";
-                std::cin.ignore();
-                std::getline(std::cin, title);
-                std::cout << "Enter number of pages: ";
-                std::cin >> numPages;
+void Menu::addAudioBook() {
+    std::string title;
+    int durationMinutes;
+    std::cin.ignore(); // Ignore previous input
+    std::cout << "Enter Audiobook's title: ";
+    std::getline(std::cin, title);
+    std::cout << "Enter the duration in minutes: ";
+    if (!(std::cin >> durationMinutes)) {
+        std::cout << "Invalid input. Please enter a valid number." << std::endl;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        return;
+    }
+    library.addAudioBook(title, durationMinutes); // Assuming library has a function addAudioBook()
+    std::cout << "AudioBook added successfully!" << std::endl;
+}
 
-                try {
-                    library.addPrintedBook(title, numPages); // Use the library reference
-                    std::cout << "Printed Book added successfully!\n";
-                } catch (const std::invalid_argument& e) {
-                    std::cerr << "Error: " << e.what() << '\n';
-                }
-                break;
-            }
-            case 2: {
-                std::cout << "Enter Ebook title: ";
-                std::cin.ignore();
-                std::getline(std::cin, title);
-                std::cout << "Enter size in characters: ";
-                std::cin >> sizeCharacters;
-                std::cout << "Enter chars per page: ";
-                std::cin >> charsPerPage;
+void Menu::searchPatron() {
+    std::string name;
+    std::cin.ignore(); // Ignore previous input
+    std::cout << "Enter Patron's name to search: ";
+    std::getline(std::cin, name);
+    Patron* foundPatron = library.searchPatron(name); // Assuming library has a function searchPatron()
+    if (foundPatron != nullptr) {
+        std::cout << "Patron Found:" << std::endl;
+        std::cout << "Name: " << foundPatron->getName() << std::endl;
+        std::cout << "Address: " << foundPatron->getAddress() << std::endl;
+        std::cout << "Phone Number: " << foundPatron->getPhoneNumber() << std::endl;
+    } else {
+        std::cout << "Patron not found." << std::endl;
+    }
+}
 
-                try {
-                    library.addEBook(title, sizeCharacters, charsPerPage); // Using library reference
-                    std::cout << "EBook added successfully!\n";
-                } catch (const std::invalid_argument& e) {
-                    std::cerr << "Error: " << e.what() << '\n';
-                }
-                break;
-            }
-            case 3: {
-                std::cout << "Enter Audiobook title: ";
-                std::cin.ignore();
-                std::getline(std::cin, title);
-                std::cout << "Enter duration in seconds: ";
-                std::cin >> durationSeconds;
+void Menu::searchBook() {
+    std::string title;
+    std::cin.ignore(); // Ignore previous input
+    std::cout << "Enter book's title to search: ";
+    std::getline(std::cin, title);
+    Book* foundBook = library.searchBook(title); // Assuming library has a function searchBook()
+    if (foundBook != nullptr) {
+        std::cout << "Book Found:" << std::endl;
+        std::cout << "Title: " << foundBook->getTitle() << std::endl;
+    } else {
+        std::cout << "Book not found." << std::endl;
+    }
+}
 
-                try {
-                    library.addAudioBook(title, durationSeconds); // Using library reference
-                    std::cout << "AudioBook added successfully!\n";
-                } catch (const std::invalid_argument& e) {
-                    std::cerr << "Error: " << e.what() << '\n';
-                }
-                break;
-            }
+void Menu::checkOutBook() {
+    std::string bookTitle, patronName;
+    int dueYear, dueMonth, dueDay;
+    std::cin.ignore(); // Ignore previous input
+    std::cout << "Enter book's title to check out: ";
+    std::getline(std::cin, bookTitle);
+    std::cout << "Enter patron's name: ";
+    std::getline(std::cin, patronName);
+    std::cout << "Enter due date (year month day): ";
+    if (!(std::cin >> dueYear >> dueMonth >> dueDay)) {
+        std::cout << "Invalid input. Please enter valid numbers for the due date." << std::endl;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        return;
+    }
 
-            default: {
-                std::cout << "Invalid choice! Please try again.\n";
-                break;
-            }
-        }
-    } while (choice != 1 && choice != 2 && choice != 3);
+    Date checkoutDate(dueYear, dueMonth, dueDay); // Assuming Date class exists
+    library.checkOutBook(bookTitle, patronName, checkoutDate); // Assuming library has a function checkOutBook()
+}
+
+void Menu::returnBook() {
+    std::string bookTitle, patronName;
+    std::cin.ignore(); // Ignore previous input
+    std::cout << "Enter book's title to return: ";
+    std::getline(std::cin, bookTitle);
+    std::cout << "Enter patron's name: ";
+    std::getline(std::cin, patronName);
+    library.returnBook(bookTitle, patronName); // Assuming library has a function returnBook()
+}
+
+void Menu::exitMenu() {
+    std::cout << "Are you sure you want to exit? (y/n): ";
+    char exitChoice;
+    std::cin >> exitChoice;
+    if (exitChoice == 'y' || exitChoice == 'Y') {
+        std::cout << "Goodbye!" << std::endl;
+        exit(0);
+    } else if (exitChoice == 'n' || exitChoice == 'N') {
+        displayMainMenu();
+        return;
+    } else {
+        std::cout << "Invalid choice. ";
+        std::cout << "Returning to main menu." << std::endl;
+        displayMainMenu();
+        return;
+    }
 }

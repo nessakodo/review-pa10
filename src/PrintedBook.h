@@ -1,3 +1,4 @@
+// PrintedBook.h
 #ifndef PRINTEDBOOK_H
 #define PRINTEDBOOK_H
 
@@ -8,12 +9,11 @@ private:
     int numPages;
 
 public:
-    PrintedBook(const std::string& title, int pages);
+    PrintedBook(const std::string& title, int numPages);
     ~PrintedBook();
 
     int getNumPages() const;
     virtual std::string getBookSizeRepresentation() const override;
-    virtual std::string toString() const override;
 };
 
 #endif // PRINTEDBOOK_H

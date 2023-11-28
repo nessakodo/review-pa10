@@ -1,3 +1,4 @@
+// EBook.h
 #ifndef EBOOK_H
 #define EBOOK_H
 
@@ -9,13 +10,12 @@ private:
     int charsPerPage;
 
 public:
-    EBook(const std::string& title, int totalCharacters, int charactersPerPage);
+    EBook(const std::string& title, int sizeCharacters, int charsPerPage);
     ~EBook();
 
-    int getTotalCharacters() const;
+    int getSizeCharacters() const;
     int getCharsPerPage() const;
     virtual std::string getBookSizeRepresentation() const override;
-    virtual std::string toString() const override;
 };
 
 #endif // EBOOK_H

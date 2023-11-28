@@ -1,3 +1,4 @@
+// AudioBook.h
 #ifndef AUDIOBOOK_H
 #define AUDIOBOOK_H
 
@@ -8,12 +9,11 @@ private:
     int durationSeconds;
 
 public:
-    AudioBook(const std::string& title, int duration);
+    AudioBook(const std::string& title, int durationSeconds);
     ~AudioBook();
 
     int getDurationSeconds() const;
     virtual std::string getBookSizeRepresentation() const override;
-    virtual std::string toString() const override;
 };
 
 #endif // AUDIOBOOK_H

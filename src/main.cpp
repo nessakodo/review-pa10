@@ -1,9 +1,8 @@
+#include "Library.h"
 #include "menu.h"
-#include "Library.h" 
 
 int main() {
-    Library library;
-
+    Library library("My Library");
     Menu menu(library);
 
     menu.displayMainMenu();
