@@ -8,9 +8,12 @@ private:
     int durationSeconds;
 
 public:
-    AudioBook(const std::string& title, int durationSeconds);
+    AudioBook(const std::string& title, int duration);
+    ~AudioBook();
+
     int getDurationSeconds() const;
     std::string getBookSizeRepresentation() const override;
+    std::string toString() const override;
 };
 
 #endif // AUDIOBOOK_H

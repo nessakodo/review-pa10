@@ -1,10 +1,10 @@
 #include "menu.h"
+#include "Menu.h"
 #include <iostream>
 #include <stdexcept>
 #include <string>
 
-Menu::Menu(Library& lib) : library(lib) {} // Initialize the reference in the constructor
-
+Menu::Menu(Library& lib) : library(lib) {}
 
 int choice;
 void Menu::displayMainMenu() {

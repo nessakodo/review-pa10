@@ -1,16 +1,12 @@
-#include "Library.h"
 #include "menu.h"
-
-void mainMenu(Library& library); // Forward declaration
+#include "Library.h" // Include the necessary library header
 
 int main() {
-    Library library("My Library");
-    mainMenu(library);
+    Library library; // Assuming Library class instance is created here
+
+    Menu menu(library);
+
+    menu.displayMainMenu();
 
     return 0;
-}
-
-void mainMenu(Library& library) {
-    Menu menu(library);
-    menu.displayMainMenu();
 }
