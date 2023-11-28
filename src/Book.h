@@ -3,16 +3,27 @@
 
 #include <string>
 
+class Patron; 
+
 class Book {
-protected:
+private:
     std::string title;
+    Patron* checkedOutBy;
 
 public:
-    Book(const std::string& title);
+    Book(const std::string &title);
     virtual ~Book();
 
+    std::string getTitle() const;
+    void setTitle(const std::string &title);
+
+    Patron* getCurrentPatron();
+    void checkOut(Patron* aPatron);
+    void returnBook();
+    bool isCheckedOut() const;
+
+    virtual std::string toString() final;
     virtual std::string getBookSizeRepresentation() const = 0;
-    virtual std::string toString() const = 0;
 };
 
 #endif // BOOK_H
