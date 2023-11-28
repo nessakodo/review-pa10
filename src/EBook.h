@@ -14,8 +14,8 @@ public:
 
     int getTotalCharacters() const;
     int getCharsPerPage() const;
-    std::string getBookSizeRepresentation() const override;
-    std::string toString() const override;
+    virtual std::string getBookSizeRepresentation() const override;
+    virtual std::string toString() const override;
 };
 
 #endif // EBOOK_H
