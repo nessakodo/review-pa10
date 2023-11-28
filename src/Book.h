@@ -3,17 +3,17 @@
 
 #include <string>
 
-class Patron; 
+class Patron;
 
 class Book {
 private:
     std::string title;
-    Patron* checkedOutBy;
 
 public:
     Book(const std::string &title);
     virtual ~Book();
 
+    Patron* checkedOutBy;
     std::string getTitle() const;
     void setTitle(const std::string &title);
 
@@ -22,7 +22,7 @@ public:
     void returnBook();
     bool isCheckedOut() const;
 
-    virtual std::string toString() final;
+    virtual std::string toString() const final;
     virtual std::string getBookSizeRepresentation() const = 0;
 };
 
