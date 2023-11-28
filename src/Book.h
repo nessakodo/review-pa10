@@ -24,6 +24,7 @@ public:
 
     virtual std::string toString() const final;
     virtual std::string getBookSizeRepresentation() const = 0;
+    
 };
 
 #endif // BOOK_H

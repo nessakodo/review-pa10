@@ -15,3 +15,4 @@ std::string PrintedBook::getBookSizeRepresentation() const {
 
 std::string PrintedBook::toString() const {
     return "Printed Book: '" + getTitle() + "'";
+}

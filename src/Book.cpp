@@ -29,6 +29,7 @@ bool Book::isCheckedOut() const {
     return checkedOutBy != nullptr;
 }
 
-std::string Book::toString() {
+
+std::string Book::toString() const {
     return "'" + getTitle() + "' has " + getBookSizeRepresentation();
 }
