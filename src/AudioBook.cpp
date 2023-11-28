@@ -20,5 +20,5 @@ std::string AudioBook::getBookSizeRepresentation() const {
 }
 
 std::string AudioBook::toString() const {
-    return "AudioBook: '" + title + "'";
+    return "AudioBook: '" + getTitle() + "'";
 }

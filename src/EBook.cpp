@@ -20,5 +20,5 @@ std::string EBook::getBookSizeRepresentation() const {
 }
 
 std::string EBook::toString() const {
-    return "EBook: '" + title + "'";
+    return "EBook: '" + getTitle() + "'";
 }
