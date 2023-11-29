@@ -21,7 +21,7 @@ public:
     void returnBook();
     bool isCheckedOut() const;
 
-    virtual std::string toString() const;
+    virtual std::string toString() const = 0;
     virtual std::string getBookSizeRepresentation() const = 0;
 };
 

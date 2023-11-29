@@ -89,23 +89,25 @@ void Library::addPatron(const std::string& name, const std::string& address, con
     }
     patrons.push_back(new Patron(name, address, phoneNumber));
 }
-
 void Library::checkOutBook(Book* aBook, Patron* aPatron, int dueYear, int dueMonth, int dueDay) {
     if (aBook == nullptr || aPatron == nullptr) {
-        throw std::invalid_argument("Book or patron pointer is null.");
+        std::cout << "Error: Book or patron pointer is null." << std::endl;
+        return;
     }
 
     if (!aBook->isCheckedOut()) {
         loans.push_back(new Loan(aBook, aPatron, Date(dueYear, dueMonth, dueDay)));
         aBook->checkOut(aPatron);
+        std::cout << "Success: Book checked out." << std::endl;
     } else {
-        throw std::invalid_argument("The book is not available for check out.");
+        std::cout << "Error: The book is not available for check out." << std::endl;
     }
 }
 
 void Library::returnBook(Book* aBook, Patron* aPatron) {
     if (aBook == nullptr || aPatron == nullptr) {
-        throw std::invalid_argument("Book or patron pointer is null.");
+        std::cout << "Error: Book or patron pointer is null." << std::endl;
+        return;
     }
 
     bool foundLoan = false;
@@ -115,12 +117,14 @@ void Library::returnBook(Book* aBook, Patron* aPatron) {
             delete loan;
             loans.erase(it);
             foundLoan = true;
+            std::cout << "Success: Book returned." << std::endl;
             break;
         }
     }
 
     if (!foundLoan) {
-        throw std::invalid_argument("Loan could not be found.");
+        std::cout << "Error: Loan could not be found." << std::endl;
+        return;
     }
 
     aBook->returnBook();
