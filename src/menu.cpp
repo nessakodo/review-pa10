@@ -23,7 +23,7 @@ void Menu::displayMainMenu() {
 
         if (!(std::cin >> choice)) {
             std::cout << "Invalid input. Please enter a valid number." << std::endl;
-            std::cin.clear(); // Clear error flags
+            std::cin.clear(); // Clearing error flags
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard invalid input
             continue;
         }
@@ -135,7 +135,7 @@ void Menu::addPrintedBook() {
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         return;
     }
-    library.addPrintedBook(title, numPages); // Assuming library has a function addPrintedBook()
+    library.addPrintedBook(title, numPages);
     std::cout << "Printed Book added successfully!" << std::endl;
 }
 
@@ -159,7 +159,7 @@ void Menu::addEBook() {
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         return;
     }
-    library.addEBook(title, numPages, sizeMB); // Assuming library has a function addEBook()
+    library.addEBook(title, numPages, sizeMB); 
     std::cout << "EBook added successfully!" << std::endl;
 }
 
@@ -176,7 +176,7 @@ void Menu::addAudioBook() {
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         return;
     }
-    library.addAudioBook(title, durationMinutes); // Assuming library has a function addAudioBook()
+    library.addAudioBook(title, durationMinutes); 
     std::cout << "AudioBook added successfully!" << std::endl;
 }
 
@@ -185,7 +185,7 @@ void Menu::searchPatron() {
     std::cin.ignore(); // Ignore previous input
     std::cout << "Enter Patron's name to search: ";
     std::getline(std::cin, name);
-    Patron* foundPatron = library.searchPatron(name); // Assuming library has a function searchPatron()
+    Patron* foundPatron = library.searchPatron(name); 
     if (foundPatron != nullptr) {
         std::cout << "Patron Found:" << std::endl;
         std::cout << "Name: " << foundPatron->getName() << std::endl;
@@ -201,7 +201,7 @@ void Menu::searchBook() {
     std::cin.ignore(); // Ignore previous input
     std::cout << "Enter book's title to search: ";
     std::getline(std::cin, title);
-    Book* foundBook = library.searchBook(title); // Assuming library has a function searchBook()
+    Book* foundBook = library.searchBook(title); 
     if (foundBook != nullptr) {
         std::cout << "Book Found:" << std::endl;
         std::cout << "Title: " << foundBook->getTitle() << std::endl;
@@ -213,12 +213,14 @@ void Menu::searchBook() {
 void Menu::checkOutBook() {
     std::string bookTitle, patronName;
     int dueYear, dueMonth, dueDay;
+
     std::cin.ignore(); // Ignore previous input
     std::cout << "Enter book's title to check out: ";
     std::getline(std::cin, bookTitle);
     std::cout << "Enter patron's name: ";
     std::getline(std::cin, patronName);
     std::cout << "Enter due date (year month day): ";
+
     if (!(std::cin >> dueYear >> dueMonth >> dueDay)) {
         std::cout << "Invalid input. Please enter valid numbers for the due date." << std::endl;
         std::cin.clear();
@@ -226,8 +228,17 @@ void Menu::checkOutBook() {
         return;
     }
 
-    Date checkoutDate(dueYear, dueMonth, dueDay); // Assuming Date class exists
-    library.checkOutBook(bookTitle, patronName, checkoutDate); // Assuming library has a function checkOutBook()
+    // Get the Book and Patron objects from the Library based on their names
+    Book* book = library.searchBook(bookTitle);
+    Patron* patron = library.searchPatron(patronName);
+
+    if (!book || !patron) {
+        std::cout << "Book or patron not found." << std::endl;
+        return;
+    }
+
+    // Pass the due date as separate integers
+    library.checkOutBook(book, patron, dueYear, dueMonth, dueDay);
 }
 
 void Menu::returnBook() {
@@ -237,8 +248,18 @@ void Menu::returnBook() {
     std::getline(std::cin, bookTitle);
     std::cout << "Enter patron's name: ";
     std::getline(std::cin, patronName);
-    library.returnBook(bookTitle, patronName); // Assuming library has a function returnBook()
+
+    Book* book = library.searchBook(bookTitle);
+    Patron* patron = library.searchPatron(patronName);
+
+    if (!book || !patron) {
+        std::cout << "Book or patron not found." << std::endl;
+        return;
+    }
+
+    library.returnBook(book, patron);
 }
+
 
 void Menu::exitMenu() {
     std::cout << "Are you sure you want to exit? (y/n): ";

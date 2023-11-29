@@ -15,6 +15,7 @@ public:
 
     int getSizeCharacters() const;
     int getCharsPerPage() const;
+    virtual std::string toString() const override;
     virtual std::string getBookSizeRepresentation() const override;
 };
 

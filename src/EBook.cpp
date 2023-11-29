@@ -15,5 +15,9 @@ int EBook::getCharsPerPage() const {
 }
 
 std::string EBook::getBookSizeRepresentation() const {
-    return "has " + std::to_string(sizeCharacters / charsPerPage) + " digital pages.";
+    return " has " + std::to_string(sizeCharacters) + " digital pages.";
+}
+
+std::string EBook::toString() const {
+    return "'" + getTitle() + "'" + getBookSizeRepresentation();
 }

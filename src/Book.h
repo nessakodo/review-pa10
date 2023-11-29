@@ -1,20 +1,19 @@
-#pragma once
+#ifndef BOOK_H
+#define BOOK_H
 
 #include <string>
 
 class Patron;
 
 class Book {
-protected:
+private:
     std::string title;
     Patron* checkedOutBy;
 
 public:
-    // Constructors
     Book(const std::string& title);
     virtual ~Book();
 
-    // Member functions
     std::string getTitle() const;
     void setTitle(const std::string& title);
     Patron* getCurrentPatron();
@@ -22,7 +21,8 @@ public:
     void returnBook();
     bool isCheckedOut() const;
 
-    // Abstract functions
-    virtual std::string toString() const = 0;
+    virtual std::string toString() const;
     virtual std::string getBookSizeRepresentation() const = 0;
 };
+
+#endif // BOOK_H

@@ -13,7 +13,9 @@ public:
     ~PrintedBook();
 
     int getNumPages() const;
+    virtual std::string toString() const override;
     virtual std::string getBookSizeRepresentation() const override;
+    
 };
 
 #endif // PRINTEDBOOK_H

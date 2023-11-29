@@ -4,7 +4,6 @@ Patron::Patron(const std::string& name, const std::string& address, const std::s
     : name(name), address(address), phoneNumber(phoneNumber) {}
 
 Patron::~Patron() {
-    // No dynamic memory cleanup needed
 }
 
 std::string Patron::getName() const {

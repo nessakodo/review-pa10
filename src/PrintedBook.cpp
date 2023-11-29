@@ -9,7 +9,10 @@ PrintedBook::~PrintedBook() {}
 int PrintedBook::getNumPages() const {
     return numPages;
 }
-
 std::string PrintedBook::getBookSizeRepresentation() const {
-    return "has " + std::to_string(numPages) + " pages.";
+    return " has " + std::to_string(numPages) + " pages.";
+}
+
+std::string PrintedBook::toString() const {
+    return "'" + getTitle() + "'" + getBookSizeRepresentation();
 }
